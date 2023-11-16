@@ -1,0 +1,97 @@
+@use '../../scss/variables' as v;
+.modal {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(84, 87, 98, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.5s all;
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+
+    .content {
+      transform: scale(1);
+    }
+  }
+
+  .content {
+    position: relative;
+    padding: 20px;
+    background-color: v.$grayscale-1;
+    padding: 32px 24px;
+    border-radius: 24px;
+    max-width: 332px;
+    width: 100%;
+    transition: 0.4s all;
+    transform: scale(0.5);
+
+    h3 {
+      max-width: 260px;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 28px;
+      margin-bottom: 36px;
+    }
+
+    svg {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      transition: all 0.5s;
+      &:hover {
+        path {
+          fill: #000;
+        }
+      }
+    }
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .exit {
+        background-color: v.$primary-default;
+        color: v.$grayscale-1;
+        padding: 14px 20px;
+        border-radius: 12px;
+        font-size: 14px;
+        width: 100%;
+        justify-content: center;
+        transition: all 0.5s;
+        &:hover {
+          background-color: v.$primary-6;
+        }
+        &:focus {
+          background-color: v.$primary-default;
+        }
+      }
+      .cancel {
+        background-color: v.$primary-2;
+        color: v.$primary-default;
+        padding: 14px 20px;
+        border-radius: 12px;
+        margin-right: 12px;
+        font-size: 14px;
+        width: 100%;
+        justify-content: center;
+        transition: all 0.5s;
+        &:hover {
+          background-color: v.$primary-6;
+          color: v.$grayscale-1;
+        }
+        &:focus {
+          background-color: v.$primary-default;
+          color: v.$grayscale-1;
+        }
+      }
+    }
+  }
+}

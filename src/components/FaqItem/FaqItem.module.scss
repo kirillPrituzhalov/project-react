@@ -1,0 +1,54 @@
+@use '../../scss/variables' as v;
+li {
+  transition: max-height 0.15s;
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      text-align: left;
+      max-width: 700px;
+      @media (max-width: 768px) {
+        max-width: 440px;
+      }
+      @media (max-width: 500px) {
+        max-width: 272px;
+      }
+    }
+    svg {
+      transition: all v.$duration;
+      margin-left: 7px;
+      &.active {
+        transform: rotate(180deg);
+        path {
+          fill: v.$primary-6;
+        }
+      }
+    }
+  }
+  .bottom {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    max-width: 700px;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s;
+
+    &.active {
+      margin-top: 20px;
+      max-height: 500px;
+    }
+
+    @media (max-width: 768px) {
+      max-width: 440px;
+    }
+    @media (max-width: 500px) {
+      max-width: 272px;
+    }
+  }
+}

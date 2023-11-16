@@ -1,0 +1,44 @@
+@use '../variables' as v;
+.header {
+  border-bottom: 1px solid #efefef;
+  padding: 22px 0;
+
+  .header__login {
+    display: flex;
+    align-items: center;
+
+    span {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+    }
+    button {
+      padding: 8px;
+      margin-left: 12px;
+      border-radius: 16px;
+      transition: all 0.5s;
+
+      &:hover {
+        color: v.$primary-6;
+
+        path {
+          fill: v.$primary-6;
+        }
+      }
+      &:focus {
+        color: v.$primary-default;
+        background: v.$grayscale-2;
+
+        path {
+          fill: v.$primary-default;
+        }
+      }
+      span {
+        color: v.$primary-default;
+        margin-right: 8px;
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+  }
+}

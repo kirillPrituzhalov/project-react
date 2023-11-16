@@ -1,0 +1,19 @@
+@use '../variables' as v;
+
+.button {
+  display: flex;
+  align-items: center;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color v.$duration ease-in-out,
+    border-color v.$duration ease-in-out;
+  background-color: v.$grayscale-1;
+  transition: all v.$duration ease-in-out;
+
+  span,
+  path,
+  svg {
+    transition: all v.$duration ease-in-out;
+  }
+}
