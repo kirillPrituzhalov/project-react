@@ -1,16 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
-type ProfileItem = {
+type TypeProfileFaqList = {
   q: string;
   a: string;
 };
 
-interface ProfileSliceState {
+interface IProfileSliceState {
   open: boolean;
-  faqList: ProfileItem[];
+  faqList: TypeProfileFaqList[];
 }
 
-const initialState: ProfileSliceState = {
+const initialState: IProfileSliceState = {
   open: false,
   faqList: [
     {
@@ -36,12 +37,14 @@ export const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
-    onClickModal: (state, action) => {
+    onClickModal: (state, action: PayloadAction<boolean>) => {
       state.open = action.payload;
     },
   },
 });
 
+export const selectFaqList = (state: RootState) => state.profile.faqList;
+export const selectProfileOpenModal = (state: RootState) => state.profile.open;
 export const { onClickModal } = profileSlice.actions;
 
 export default profileSlice.reducer;

@@ -1,17 +1,28 @@
 import s from './Modal.module.scss';
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../redux/store';
-import { onClickModal } from '../../redux/slice/profileSlice';
+import { useAppDispatch } from '../../redux/store';
+import {
+  onClickModal,
+  selectProfileOpenModal,
+} from '../../redux/slice/profileSlice';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { logOut } from '../../redux/slice/authSlice';
 
 const Modal: React.FC = () => {
-  const hideModal = useSelector((state: RootState) => state.profile.open);
-  const dispatch = useDispatch();
+  const hideModal = useSelector(selectProfileOpenModal);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const addClassActive = hideModal ? s.active : '';
   const classModal = s.modal + ' ' + addClassActive;
 
   const onClickCloseModal = () => dispatch(onClickModal(false));
+  const onClickLogout = () => {
+    dispatch(logOut());
+    dispatch(onClickModal(false));
+    navigate('/login');
+  };
   return (
     <div className={classModal} onClick={onClickCloseModal}>
       <div className={s.content} onClick={(e) => e.stopPropagation()}>
@@ -44,7 +55,9 @@ const Modal: React.FC = () => {
           >
             Отмена
           </button>
-          <button className={'button' + ' ' + s.exit}>Выйти</button>
+          <button onClick={onClickLogout} className={'button' + ' ' + s.exit}>
+            Выйти
+          </button>
         </div>
       </div>
     </div>

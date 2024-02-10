@@ -3,6 +3,18 @@
   border-bottom: 1px solid #efefef;
   padding: 22px 0;
 
+  .header__logo-mobile {
+    display: none;
+  }
+
+  @media (max-width: 450px) {
+    .header__logo-mobile {
+      display: block;
+    }
+    .header__logo-desktop {
+      display: none;
+    }
+  }
   .header__login {
     display: flex;
     align-items: center;

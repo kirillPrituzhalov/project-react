@@ -16,7 +16,10 @@ li {
         max-width: 440px;
       }
       @media (max-width: 500px) {
-        max-width: 272px;
+        max-width: 240px;
+      }
+      @media (max-width: 350px) {
+        max-width: 190px;
       }
     }
     svg {
@@ -48,7 +51,10 @@ li {
       max-width: 440px;
     }
     @media (max-width: 500px) {
-      max-width: 272px;
+      max-width: 240px;
+    }
+    @media (max-width: 350px) {
+      max-width: 190px;
     }
   }
 }

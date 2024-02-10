@@ -6,7 +6,14 @@
 body {
   background-color: v.$grayscale-1;
 }
+.text-error {
+  color: #f46666;
+  font-size: 14px;
+  margin-top: 4px;
+  min-height: 20px;
+}
 .container {
+  position: relative;
   max-width: 1264px;
   margin: 0 auto;
   padding: 0 32px;
@@ -16,6 +23,17 @@ body {
   @media (max-width: 500px) {
     padding: 0 16px;
   }
+}
+button {
+  span {
+    color: #fff;
+  }
+}
+.btn-loading {
+  animation-name: rotate;
+  animation-duration: 3s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 .profile {
@@ -28,50 +46,54 @@ body {
   }
   &__headline {
     display: flex;
-    align-items: center;
+    align-items: end;
     margin-bottom: 36px;
   }
   &__edit {
     a {
-      display: flex;
-      align-items: center;
-      padding: 8px;
       margin-left: 28px;
-      transition: all v.$duration;
-      border-radius: 16px;
-
-      @media (max-width: 500px) {
+      @media (max-width: 450px) {
         margin-left: 16px;
       }
-
-      span {
-        font-size: 14px;
-        font-weight: 500;
-        line-height: 20px;
-        color: v.$primary-default;
-        margin-left: 8px;
-
-        @media (max-width: 690px) {
-          display: none;
+      button {
+        padding: 8px;
+        min-width: unset;
+        text-transform: capitalize;
+        min-height: 36px;
+        svg {
+          margin-right: 8px;
+          @media (max-width: 450px) {
+            margin-right: 0px;
+          }
         }
-      }
-
-      &:hover {
         span {
-          color: v.$primary-6;
-        }
-        path {
-          fill: v.$primary-6;
-        }
-      }
-      &:focus {
-        background: v.$grayscale-2;
-        span {
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 20px;
           color: v.$primary-default;
+
+          @media (max-width: 690px) {
+            display: none;
+          }
         }
 
-        path {
-          fill: v.$primary-default;
+        &:hover {
+          span {
+            color: v.$primary-6;
+          }
+          path {
+            fill: v.$primary-6;
+          }
+        }
+        &:focus {
+          background: v.$grayscale-2;
+          span {
+            color: v.$primary-default;
+          }
+
+          path {
+            fill: v.$primary-default;
+          }
         }
       }
     }
@@ -195,12 +217,21 @@ body {
   }
 }
 .login {
-  margin: 56px auto;
+  margin: 80px auto;
   padding: 80px 72px 60px;
   box-shadow: 0px 12px 26px 0px rgba(232, 233, 236, 0.57);
-
   max-width: 424px;
   width: 100%;
+  border-radius: 24px;
+  @media (max-width: 768px) {
+    margin: 56px auto;
+  }
+  @media (max-width: 455px) {
+    padding: 80px 31.5px 60px;
+  }
+  @media (max-width: 375px) {
+    margin: 20px auto;
+  }
 
   form {
     display: flex;
@@ -209,18 +240,27 @@ body {
 
     input {
       border-radius: 12px;
-      background: v.$grayscale-2;
       padding: 14px 20px;
       border: 0;
       font-size: 14px;
       line-height: 20px;
       position: relative;
-
+      border: 0;
+      &:-webkit-autofill {
+        -webkit-box-shadow: inset 0 0 0 50px v.$grayscale-2 !important; /* Цвет фона */
+      }
       &:required {
         border: v.$additional-error;
       }
     }
-
+    .Mui-focused {
+      input:-webkit-autofill {
+        -webkit-box-shadow: inset 0 0 0 50px v.$grayscale-1 !important; /* Цвет фона */
+      }
+      input::placeholder {
+        color: transparent;
+      }
+    }
     .login__item {
       width: 100%;
       display: flex;
@@ -235,19 +275,23 @@ body {
     }
     .login__email,
     .login__btn {
-      margin-top: 48px;
+      margin-top: 28px;
     }
 
     .login__password,
     .login__register {
-      margin-top: 28px;
+      margin-top: 8px;
     }
 
     .login__btn {
-      input {
+      button {
+        border-radius: 12px;
+        height: 52px;
         cursor: pointer;
+        text-transform: capitalize;
         background: v.$primary-default;
         color: v.$grayscale-1;
+        box-shadow: none;
 
         &:hover {
           background-color: v.$primary-6;
@@ -292,6 +336,362 @@ body {
           path {
             fill: v.$primary-default;
           }
+        }
+      }
+    }
+  }
+  &__block-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: inline-block;
+    > svg {
+      cursor: pointer;
+    }
+  }
+}
+.register {
+  margin: 56px auto;
+  padding: 80px 72px 60px;
+  box-shadow: 0px 12px 26px 0px rgba(232, 233, 236, 0.57);
+  max-width: 424px;
+  width: 100%;
+  border-radius: 24px;
+  @media (max-width: 768px) {
+    margin: 56px auto;
+  }
+  @media (max-width: 455px) {
+    padding: 80px 31.5px 60px;
+  }
+  @media (max-width: 375px) {
+    margin: 20px auto;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    input {
+      border-radius: 12px;
+      padding: 14px 20px;
+      border: 0;
+      font-size: 14px;
+      line-height: 20px;
+      position: relative;
+      border: 0;
+      &:-webkit-autofill {
+        -webkit-box-shadow: inset 0 0 0 50px v.$grayscale-2 !important; /* Цвет фона */
+      }
+      &:required {
+        border: v.$additional-error;
+      }
+    }
+    .Mui-focused {
+      input:-webkit-autofill {
+        -webkit-box-shadow: inset 0 0 0 50px v.$grayscale-1 !important; /* Цвет фона */
+      }
+      input::placeholder {
+        color: transparent;
+      }
+    }
+    .register__item {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      label {
+        font-size: 12px;
+        line-height: 16px;
+        margin-bottom: 4px;
+      }
+    }
+    .register__email,
+    .register__btn {
+      margin-top: 28px;
+    }
+
+    .register__password,
+    .register__confirm-password,
+    .register__login {
+      margin-top: 8px;
+    }
+
+    .register__btn {
+      button {
+        border-radius: 12px;
+        height: 52px;
+        cursor: pointer;
+        text-transform: capitalize;
+        background: v.$primary-default;
+        color: v.$grayscale-1;
+        box-shadow: none;
+
+        &:hover {
+          background-color: v.$primary-6;
+        }
+        &:focus {
+          background: v.$primary-default;
+        }
+        &:disabled {
+          background-color: v.$primary-150;
+        }
+        svg {
+          animation: rotate 5s infinite linear;
+        }
+      }
+    }
+
+    .register__login {
+      flex-direction: row;
+      align-items: center;
+      span {
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      a {
+        padding: 8px;
+        color: v.$primary-default;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        border-radius: 16px;
+        transition: all 0.5s;
+
+        &:hover {
+          color: v.$primary-6;
+
+          path {
+            fill: v.$primary-6;
+          }
+        }
+        &:focus {
+          color: v.$primary-default;
+          background: v.$grayscale-2;
+
+          path {
+            fill: v.$primary-default;
+          }
+        }
+      }
+    }
+  }
+  &__block-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: inline-block;
+    > svg {
+      cursor: pointer;
+    }
+  }
+}
+
+.container-about__btn-back {
+  svg {
+    margin-right: 8px;
+  }
+  span {
+    color: v.$grayscale-7;
+  }
+  &:hover {
+    path {
+      fill: v.$grayscale-8;
+      transition: all v.$duration;
+    }
+    span {
+      color: v.$grayscale-8;
+      transition: all v.$duration;
+    }
+  }
+  &:focus {
+    background: v.$grayscale-2;
+  }
+}
+
+.about {
+  margin: 56px auto;
+  padding: 80px 72px 60px;
+  box-shadow: 0px 12px 26px 0px rgba(232, 233, 236, 0.57);
+  max-width: 424px;
+  width: 100%;
+  border-radius: 24px;
+  @media (max-width: 768px) {
+    margin: 80px auto;
+  }
+  @media (max-width: 455px) {
+    padding: 80px 31.5px 60px;
+  }
+  @media (max-width: 375px) {
+    margin: 72px auto;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    input {
+      border-radius: 12px;
+      padding: 14px 20px;
+      border: 0;
+      font-size: 14px;
+      line-height: 20px;
+      position: relative;
+      border: 0;
+      &:-webkit-autofill {
+        -webkit-box-shadow: inset 0 0 0 50px v.$grayscale-2 !important;
+      }
+      &:required {
+        border: v.$additional-error;
+      }
+    }
+    .Mui-focused {
+      input:-webkit-autofill {
+        -webkit-box-shadow: inset 0 0 0 50px v.$grayscale-1 !important;
+      }
+      input::placeholder {
+        color: transparent;
+      }
+    }
+    .about__item {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      label {
+        font-size: 12px;
+        line-height: 16px;
+        margin-bottom: 4px;
+      }
+    }
+    .about__first-name,
+    .about__btn {
+      margin-top: 28px;
+    }
+
+    .about__last-name {
+      margin-top: 8px;
+    }
+
+    .about__btn {
+      button {
+        border-radius: 12px;
+        height: 52px;
+        cursor: pointer;
+        text-transform: capitalize;
+        background: v.$primary-default;
+        color: v.$grayscale-1;
+        box-shadow: none;
+
+        &:hover {
+          background-color: v.$primary-6;
+        }
+        &:focus {
+          background: v.$primary-default;
+        }
+        &:disabled {
+          background-color: v.$primary-150;
+        }
+      }
+    }
+  }
+  &__block-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: inline-block;
+    > svg {
+      cursor: pointer;
+    }
+  }
+}
+
+.edit-user {
+  margin: 56px auto;
+  padding: 80px 72px 60px;
+  box-shadow: 0px 12px 26px 0px rgba(232, 233, 236, 0.57);
+  max-width: 424px;
+  width: 100%;
+  border-radius: 24px;
+  @media (max-width: 768px) {
+    margin: 80px auto;
+  }
+  @media (max-width: 455px) {
+    padding: 80px 31.5px 60px;
+  }
+  @media (max-width: 375px) {
+    margin: 72px auto;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    input {
+      border-radius: 12px;
+      padding: 14px 20px;
+      border: 0;
+      font-size: 14px;
+      line-height: 20px;
+      position: relative;
+      border: 0;
+      &:-webkit-autofill {
+        -webkit-box-shadow: inset 0 0 0 50px v.$grayscale-2 !important;
+      }
+      &:required {
+        border: v.$additional-error;
+      }
+    }
+    .Mui-focused {
+      input:-webkit-autofill {
+        -webkit-box-shadow: inset 0 0 0 50px v.$grayscale-1 !important;
+      }
+      input::placeholder {
+        color: transparent;
+      }
+    }
+    .edit-user__item {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      label {
+        font-size: 12px;
+        line-height: 16px;
+        margin-bottom: 4px;
+      }
+    }
+    .edit-user__first-name,
+    .edit-user__btn {
+      margin-top: 28px;
+    }
+
+    .edit-user__last-name {
+      margin-top: 0px;
+    }
+
+    .edit-user__btn {
+      button {
+        border-radius: 12px;
+        height: 52px;
+        cursor: pointer;
+        text-transform: capitalize;
+        background: v.$primary-default;
+        color: v.$grayscale-1;
+        box-shadow: none;
+
+        &:hover {
+          background-color: v.$primary-6;
+        }
+        &:focus {
+          background: v.$primary-default;
+        }
+        &:disabled {
+          background-color: v.$primary-150;
         }
       }
     }

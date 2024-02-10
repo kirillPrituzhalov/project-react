@@ -1,72 +1,124 @@
 import { Button } from '@mui/material';
-
+import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-
+import { useNavigate } from 'react-router-dom';
+import { EditUserInput, schemaEditUser } from '../@types/schemaEditUser';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Link, useNavigate } from 'react-router-dom';
-import { EmailInput } from '../components/formComponents/login/EmailInput';
-import { PasswordInput } from '../components/formComponents/login/PasswordInput';
-import { LoginInput, schemaLogin } from '../@types/schemaLogin';
-import { useLoginMutation } from '../redux/api/authApi';
-import { useEffect } from 'react';
+import { Surname } from '../components/formComponents/editUser/Surname';
+import { Name } from '../components/formComponents/editUser/Name';
+import { Phone } from '../components/formComponents/editUser/Phone';
+import { Email } from '../components/formComponents/editUser/Email';
 
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useAppDispatch } from '../redux/store';
-import { IUserState, login } from '../redux/slice/authSlice';
+import { useEditDataMutation } from '../redux/api/authApi';
+import { toast, ToastContainer } from 'react-toastify';
 
-export const Login = () => {
-  const [loginUser, { data: loginData, isSuccess: isLoginSuccess, isLoading }] =
-    useLoginMutation();
+const EditUser: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
-  const methods = useForm<LoginInput>({
-    resolver: zodResolver(schemaLogin),
+  const [
+    EditUser,
+    { data: EditUserData, isSuccess: EditUserIsSuccess, isLoading },
+  ] = useEditDataMutation();
+
+  const methods = useForm<EditUserInput>({
+    resolver: zodResolver(schemaEditUser),
     mode: 'onChange',
   });
 
-  const onSubmit: SubmitHandler<LoginInput> = async (data) => {
-    await loginUser(data);
-
+  const onSubmit: SubmitHandler<EditUserInput> = async (data) => {
+    await EditUser(data);
     methods.reset();
   };
 
-  useEffect(() => {
-    if (isLoginSuccess) {
-      toast.success('Вы вошли в систему успешно');
-      if (loginData) {
-        dispatch(
-          login({
-            accessToken: loginData.accessToken,
-            refreshToken: loginData.refreshToken,
-          } as IUserState)
-        );
+  React.useEffect(() => {
+    if (EditUserIsSuccess) {
+      toast.success('Ваши данные отредактированы');
+
+      if (EditUserData) {
+        localStorage.removeItem('user');
+        localStorage.setItem('user', JSON.stringify(EditUserData));
       }
       navigate('/');
     }
-  }, [isLoginSuccess]);
+  }, [EditUserIsSuccess]);
 
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      navigate('/');
-    }
-    if (!localStorage.getItem('user')) {
-      navigate('/register');
+  React.useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/login');
     }
   }, []);
 
   return (
     <div className="container">
-      <div className="login">
+      <ToastContainer />
+      <Button
+        onClick={() => navigate(-1)}
+        sx={{
+          position: 'absolute',
+          top: '80px',
+          fontSize: '14px',
+          fontWeight: '500',
+          borderRadius: '16px',
+          padding: '8px',
+          lineHeight: '20px',
+          textTransform: 'capitalize',
+
+          span: {
+            color: '#6F7488',
+          },
+          '&:hover': {
+            background: 'transparent',
+            path: {
+              fill: '#0B1332',
+              transition: 'all 0.25s',
+            },
+            span: {
+              color: '#0B1332',
+            },
+          },
+          '&:focus': {
+            background: '#F2F3F4',
+          },
+          '@media (max-width: 690px)': {
+            top: '20px',
+          },
+        }}
+        variant="text"
+        startIcon={
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clipPath="url(#clip0_11405_307)">
+              <path
+                d="M12.6667 7.33288H6L8.19333 5.13955C8.25582 5.07758 8.30542 5.00384 8.33926 4.9226C8.37311 4.84136 8.39053 4.75423 8.39053 4.66622C8.39053 4.57821 8.37311 4.49107 8.33926 4.40983C8.30542 4.32859 8.25582 4.25486 8.19333 4.19288C8.06843 4.06872 7.89946 3.99902 7.72333 3.99902C7.54721 3.99902 7.37824 4.06872 7.25333 4.19288L4.39333 7.05955C4.14294 7.30845 4.00149 7.6465 4 7.99955C4.00324 8.35028 4.14456 8.68561 4.39333 8.93288L7.25333 11.7995C7.31549 11.8613 7.3892 11.9101 7.47025 11.9434C7.55129 11.9766 7.63809 11.9936 7.72569 11.9932C7.81329 11.9929 7.89997 11.9754 7.98078 11.9416C8.06159 11.9078 8.13495 11.8584 8.19667 11.7962C8.25839 11.7341 8.30726 11.6603 8.3405 11.5793C8.37373 11.4982 8.39068 11.4114 8.39037 11.3239C8.39006 11.2363 8.3725 11.1496 8.33869 11.0688C8.30489 10.988 8.25549 10.9146 8.19333 10.8529L6 8.66621H12.6667C12.8435 8.66621 13.013 8.59598 13.1381 8.47095C13.2631 8.34593 13.3333 8.17636 13.3333 7.99955C13.3333 7.82274 13.2631 7.65317 13.1381 7.52814C13.013 7.40312 12.8435 7.33288 12.6667 7.33288Z"
+                fill="#6F7488"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_11405_307">
+                <rect width="16" height="16" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        }
+      >
+        <span>Назад</span>
+      </Button>
+      <div className="edit-user">
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <h3>Авторизация</h3>
-            <EmailInput />
-            <PasswordInput />
+            <h3>Редактировать данные</h3>
+            <Name />
+            <Surname />
+            <Phone />
+            <Email />
 
-            <div className="login__item login__btn">
+            <div className="edit-user__item edit-user__btn">
               <Button
                 variant="contained"
                 disabled={!methods.formState.isValid}
@@ -98,13 +150,10 @@ export const Login = () => {
                 )}
               </Button>
             </div>
-            <div className="login__item login__register">
-              <span>Еще нет аккаунта?</span>
-              <Link to="/register">Зарегистрироваться</Link>
-            </div>
           </form>
         </FormProvider>
       </div>
     </div>
   );
 };
+export default EditUser;
